@@ -4,35 +4,47 @@ const fse = require('fs-extra');
 const path = require('path');
 
 const BIN = 'bin';
-const DIST = path.join(BIN, 'dist');
-const ZIP = path.join(BIN, 'build.zip');
+const CHROME = path.join(BIN, 'chrome');
+const FIREFOX = path.join(BIN, 'firefox');
 
-// Clean up previous build
-if (fs.existsSync(DIST)) fse.removeSync(DIST);
-if (fs.existsSync(ZIP)) fs.unlinkSync(ZIP);
-if (!fs.existsSync(BIN)) fs.mkdirSync(BIN);
-
-// List of files/folders to include in the build
 const INCLUDE = [
-  'manifest.json',
   'popup.html',
   'popup.js',
   'styles.css',
   'browser-polyfill.js',
   'background.js',
-  'icons', // folder, if you have icons
-  // add more files/folders as needed
+  'content.js',
+  'icons'
 ];
 
-// Copy each file/folder to dist
-INCLUDE.forEach(item => {
-  if (fs.existsSync(item)) {
-    fse.copySync(item, path.join(DIST, item));
-  }
-});
+function clean(dir) {
+  if (fs.existsSync(dir)) fse.removeSync(dir);
+  if (!fs.existsSync(BIN)) fs.mkdirSync(BIN);
+}
 
-// Zip the dist folder into bin/build.zip
-zip(DIST, ZIP).then(() => {
-  console.log('Extension packaged as bin/build.zip');
-  fse.removeSync(DIST); // Optional: clean up dist folder
-});
+function copyFiles(target, manifestFile) {
+  fse.mkdirpSync(target);
+  INCLUDE.forEach(item => {
+    if (fs.existsSync(item)) {
+      fse.copySync(item, path.join(target, item));
+    }
+  });
+  fse.copySync(manifestFile, path.join(target, 'manifest.json'));
+}
+
+async function build() {
+  clean(CHROME);
+  clean(FIREFOX);
+
+  // Chrome build (MV3)
+  copyFiles(CHROME, 'manifest.chrome.json');
+  await zip(CHROME, path.join(BIN, 'chrome.zip'));
+
+  // Firefox build (MV2)
+  copyFiles(FIREFOX, 'manifest.firefox.json');
+  await zip(FIREFOX, path.join(BIN, 'firefox.zip'));
+
+  console.log('Build complete: bin/chrome.zip and bin/firefox.zip');
+}
+
+build();

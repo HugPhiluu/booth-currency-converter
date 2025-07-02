@@ -1,4 +1,6 @@
-importScripts('browser-polyfill.js');
+if (typeof importScripts === "function") {
+  try { importScripts('browser-polyfill.js'); } catch (e) {}
+}
 
 let lastRates = {};
 let lastUpdated = {};
