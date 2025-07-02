@@ -9,11 +9,30 @@ document.addEventListener("DOMContentLoaded", async () => {
   currency.value = result.targetCurrency || "EUR";
   notation.value = result.notation || "comma";
 
+  currency.onchange = () => {
+    const custom = document.getElementById("custom-currency");
+    if (currency.value === "OTHER") {
+      custom.style.display = "";
+      custom.focus();
+    } else {
+      custom.style.display = "none";
+    }
+  };
+
   save.onclick = async () => {
-    feedback.textContent = ""; // Clear previous feedback
+    feedback.textContent = "";
+    let selectedCurrency = currency.value;
+    if (selectedCurrency === "OTHER") {
+      selectedCurrency = document.getElementById("custom-currency").value.trim().toUpperCase();
+      if (!/^[A-Z]{3}$/.test(selectedCurrency)) {
+        feedback.style.color = "red";
+        feedback.textContent = "Enter a valid 3-letter currency code.";
+        return;
+      }
+    }
     try {
       await browser.storage.local.set({
-        targetCurrency: currency.value,
+        targetCurrency: selectedCurrency,
         notation: notation.value
       });
       feedback.style.color = "green";
