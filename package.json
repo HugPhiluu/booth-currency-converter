@@ -1,0 +1,24 @@
+{
+  "name": "booth-currency-converter",
+  "version": "1.0.0",
+  "description": "A browser extension that automatically converts JPY prices on [booth.pm](https://booth.pm) into your preferred currency.  \r Choose your target currency in the extension popup and instantly see all booth.pm prices updated in real time.",
+  "main": "background.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HugPhiluu/booth-currency-converter.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/HugPhiluu/booth-currency-converter/issues"
+  },
+  "homepage": "https://github.com/HugPhiluu/booth-currency-converter#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

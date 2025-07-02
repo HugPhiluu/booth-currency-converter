@@ -27,3 +27,6 @@ pnpm-debug.log*
 # Miscellaneous
 .env
 booth-currency-converter.code-workspace
+
+# Jest coverage output
+coverage/
