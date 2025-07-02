@@ -7,14 +7,15 @@ const BIN = 'bin';
 const CHROME = path.join(BIN, 'chrome');
 const FIREFOX = path.join(BIN, 'firefox');
 
+// Updated paths for new folder structure
 const INCLUDE = [
-  'popup.html',
-  'popup.js',
-  'styles.css',
-  'browser-polyfill.js',
-  'background.js',
-  'content.js',
-  'icons'
+  { from: 'public/popup.html', to: 'popup.html' },
+  { from: 'public/styles.css', to: 'styles.css' },
+  { from: 'public/icons', to: 'icons' },
+  { from: 'src/popup.js', to: 'popup.js' },
+  { from: 'src/background.js', to: 'background.js' },
+  { from: 'src/content.js', to: 'content.js' },
+  { from: 'src/browser-polyfill.js', to: 'browser-polyfill.js' }
 ];
 
 function clean(dir) {
@@ -25,8 +26,8 @@ function clean(dir) {
 function copyFiles(target, manifestFile) {
   fse.mkdirpSync(target);
   INCLUDE.forEach(item => {
-    if (fs.existsSync(item)) {
-      fse.copySync(item, path.join(target, item));
+    if (fs.existsSync(item.from)) {
+      fse.copySync(item.from, path.join(target, item.to));
     }
   });
   fse.copySync(manifestFile, path.join(target, 'manifest.json'));

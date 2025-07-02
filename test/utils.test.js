@@ -1,4 +1,4 @@
-const { formatCurrency } = require('./utils');
+const { formatCurrency } = require('../src/utils');
 
 describe('formatCurrency', () => {
   test('formats with dot notation (en-US)', () => {
