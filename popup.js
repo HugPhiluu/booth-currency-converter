@@ -56,4 +56,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       feedback.textContent = "Failed to refresh rate.";
     }
   };
+
+  async function showLastUpdated() {
+    let selectedCurrency = currency.value;
+    if (selectedCurrency === "OTHER") {
+      selectedCurrency = document.getElementById("custom-currency").value.trim().toUpperCase();
+    }
+    const key = `lastUpdated_${selectedCurrency}`;
+    const result = await browser.storage.local.get([key]);
+    const last = result[key];
+    const info = document.getElementById("last-updated");
+    if (last) {
+      const d = new Date(last);
+      info.textContent = `Last updated: ${d.toLocaleString()}`;
+    } else {
+      info.textContent = "No recent rate update.";
+    }
+  }
+
+  currency.addEventListener("change", showLastUpdated);
+  document.getElementById("custom-currency").addEventListener("input", showLastUpdated);
+  showLastUpdated();
 });
