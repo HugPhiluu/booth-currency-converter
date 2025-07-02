@@ -6,30 +6,30 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2>Currency Converter</h2>
-  <label>
+  <h2 id="popup-title">Currency Converter</h2>
+  <label for="currency">
     Convert to:
-    <select id="currency">
-      <option value="EUR">Euro (EUR)</option>
-      <option value="USD">US Dollar (USD)</option>
-      <option value="GBP">British Pound (GBP)</option>
-      <option value="AUD">Australian Dollar (AUD)</option>
-      <option value="CAD">Canadian Dollar (CAD)</option>
-      <option value="CNY">Chinese Yuan (CNY)</option>
-      <option value="KRW">Korean Won (KRW)</option>
-    </select>
   </label>
+  <select id="currency" aria-labelledby="popup-title currency-label">
+    <option value="EUR">Euro (EUR)</option>
+    <option value="USD">US Dollar (USD)</option>
+    <option value="GBP">British Pound (GBP)</option>
+    <option value="AUD">Australian Dollar (AUD)</option>
+    <option value="CAD">Canadian Dollar (CAD)</option>
+    <option value="CNY">Chinese Yuan (CNY)</option>
+    <option value="KRW">Korean Won (KRW)</option>
+  </select>
   <br/>
-  <label>
+  <label for="notation">
     Number Notation:
-    <select id="notation">
-      <option value="comma">1.000,00</option>
-      <option value="dot">1,000.00</option>
-    </select>
   </label>
+  <select id="notation">
+    <option value="comma">1.000,00</option>
+    <option value="dot">1,000.00</option>
+  </select>
   <br/>
   <button id="save">Save</button>
-  <div id="feedback" style="margin-top:8px;color:red;"></div>
+  <div id="feedback" style="margin-top:8px;color:red;" aria-live="polite"></div>
   <script src="browser-polyfill.js"></script>
   <script src="popup.js"></script>
 </body>
