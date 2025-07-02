@@ -1,0 +1,15 @@
+body {
+  min-width: 220px;
+  font-family: sans-serif;
+  padding: 10px;
+}
+h2 {
+  margin-top: 0;
+}
+label {
+  display: block;
+  margin: 8px 0;
+}
+button {
+  margin-top: 10px;
+}

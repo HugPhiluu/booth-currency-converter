@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Booth.pm Currency Converter",
+  "description": "Convert JPY prices on booth.pm into your preferred currency.",
+  "version": "1.0",
+  "icons": {
+    "48": "icons/icon.png"
+  },
+  "permissions": [
+    "storage",
+    "*://*.booth.pm/*",
+    "https://api.frankfurter.app/*"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": "icons/icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*.booth.pm/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
