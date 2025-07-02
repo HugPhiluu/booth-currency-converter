@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       feedback.style.color = "green";
       feedback.textContent = "Settings saved!";
-      setTimeout(() => window.close(), 700);
     } catch (e) {
       feedback.style.color = "red";
       feedback.textContent = "Failed to save settings.";
@@ -50,7 +49,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       await browser.runtime.sendMessage({ type: "force-refresh-rate", targetCurrency: currency.value });
       feedback.style.color = "green";
       feedback.textContent = "Exchange rate refreshed!";
-      setTimeout(() => window.close(), 700);
     } catch (e) {
       feedback.style.color = "red";
       feedback.textContent = "Failed to refresh rate.";

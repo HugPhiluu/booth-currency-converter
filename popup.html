@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2 id="popup-title">Currency Converter</h2>
+  <h2 id="popup-title">Booth.pm Currency Converter</h2>
   <label for="currency">
     Convert to:
   </label>
@@ -30,8 +30,10 @@
     <option value="dot">1,000.00</option>
   </select>
   <br/>
-  <button id="save">Save</button>
-  <button id="refresh" style="margin-left:8px;">Refresh Rates</button>
+  <div class="button-row">
+    <button id="save">Save</button>
+    <button id="refresh">Refresh Rates</button>
+  </div>
   <div id="feedback" style="margin-top:8px;color:red;" aria-live="polite"></div>
   <div id="last-updated" style="margin:8px 0 0 0;font-size:0.95em;color:#555;"></div>
   <script src="browser-polyfill.js"></script>

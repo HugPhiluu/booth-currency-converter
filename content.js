@@ -140,7 +140,6 @@ function showExchangeRateWarning() {
  * Main function to convert all JPY prices on the page.
  */
 async function convertPrices() {
-  removePreviousConversions();
   const { targetCurrency, notation } = await getSettings();
   const rate = await fetchRate(targetCurrency);
   if (!rate) {
