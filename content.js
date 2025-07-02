@@ -37,6 +37,16 @@ function removePreviousConversions() {
 }
 
 /**
+ * Sanitize a string for safe insertion as text content.
+ * Only allows numbers, comma, dot, space, parentheses, and uppercase letters.
+ * @param {string} str
+ * @returns {string}
+ */
+function sanitizeText(str) {
+  return String(str).replace(/[^\d.,\sA-Z\-()]/g, "");
+}
+
+/**
  * Recursively replace text nodes containing JPY prices with converted values.
  * @param {Node} node
  * @param {number} rate
@@ -62,8 +72,8 @@ function replaceTextNodes(node, rate, targetCurrency, notation) {
       const converted = num * rate;
       const formatted = formatCurrency(converted, notation);
       replaced = true;
-      // Use a marker to later insert a span
-      return `${match}|||BOOTH_CONVERSION|||${formatted} ${targetCurrency}`;
+      // Sanitize formatted and targetCurrency before inserting
+      return `${match}|||BOOTH_CONVERSION|||${sanitizeText(formatted)} ${sanitizeText(targetCurrency)}`;
     });
 
     if (replaced) {
