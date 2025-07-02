@@ -10,7 +10,7 @@ Choose your target currency in the extension popup and instantly see all booth.p
 - **Automatic JPY price conversion** on booth.pm to your selected currency
 - **Multiple currencies supported** (EUR, USD, GBP, AUD, CAD, CNY, KRW, and custom codes)
 - **Number notation selection** (European or US style)
-- **Works with both Firefox and Chrome** (Manifest V3)
+- **Works with both Firefox (Manifest V2) and Chrome (Manifest V3)**
 - **No user tracking or analytics**
 - **Live exchange rates** (via [Frankfurter API](https://www.frankfurter.app/))
 - **Settings popup** for currency and notation
@@ -37,13 +37,13 @@ npm install
 
 ### 3. Build the Extension
 
-This will package the extension into a zip file in the `bin/` folder:
+This will package the extension into zip files in the `bin/` folder for both Chrome and Firefox:
 
 ```sh
 npm run build
 ```
 
-- Output: `bin/build.zip` (ready for upload or distribution)
+- Output: `bin/chrome.zip` (Chrome, Manifest V3), `bin/firefox.zip` (Firefox, Manifest V2)
 
 ### 4. Load as Unpacked Extension
 
@@ -51,13 +51,13 @@ npm run build
 
 1. Go to `chrome://extensions`
 2. Enable "Developer mode"
-3. Click "Load unpacked" and select the project folder (or extract `bin/build.zip` and select the folder)
+3. Click "Load unpacked" and select the `bin/chrome/` folder
 
 #### Firefox
 
 1. Go to `about:debugging#/runtime/this-firefox`
 2. Click "Load Temporary Add-on"
-3. Select the `manifest.json` file from the project folder (or from the extracted `bin/dist`)
+3. Select the `manifest.json` file from the `bin/firefox/` folder
 
 ---
 
@@ -75,13 +75,13 @@ npm run build
 ## Development
 
 - **Source files:** All code is in the root directory.
-- **Build script:** [`build.js`](build.js) copies only the necessary files to `bin/dist` and zips them as `bin/build.zip`.
+- **Build script:** [`build.js`](build.js) copies only the necessary files to `bin/chrome/` and `bin/firefox/` and zips them.
 - **Unit tests:** Run with `npm test` (see [`utils.test.js`](utils.test.js)).
 - **Extension files included in build:**  
-  - `manifest.json`
+  - `manifest.json` (from `manifest.chrome.json` or `manifest.firefox.json`)
   - `popup.html`, `popup.js`, `styles.css`
   - `background.js`, `content.js`, `browser-polyfill.js`
-  - `icons/` (icon assets)
+  - `icons/` (icon assets, not included in this repo by default)
 
 ---
 
@@ -92,8 +92,10 @@ booth-currency-converter/
 ├── background.js
 ├── build.js
 ├── content.js
+├── browser-polyfill.js
 ├── icons/
-├── manifest.json
+├── manifest.chrome.json
+├── manifest.firefox.json
 ├── package.json
 ├── popup.html
 ├── popup.js
@@ -101,7 +103,10 @@ booth-currency-converter/
 ├── utils.js
 ├── utils.test.js
 ├── bin/
-│   └── build.zip
+│   ├── chrome/
+│   ├── chrome.zip
+│   ├── firefox/
+│   └── firefox.zip
 └── ...
 ```
 
@@ -112,7 +117,7 @@ booth-currency-converter/
 - **Add more currencies:**  
   Edit the `<select>` in [`popup.html`](popup.html) or allow more codes in the popup logic.
 - **Change icons:**  
-  Replace files in the `icons/` folder and update `manifest.json` if needed.
+  Replace files in the `icons/` folder and update the manifests if needed.
 - **API endpoint:**  
   The extension uses [Frankfurter API](https://www.frankfurter.app/) for exchange rates. You can change the endpoint in [`background.js`](background.js).
 
