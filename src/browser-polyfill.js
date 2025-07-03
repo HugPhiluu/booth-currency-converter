@@ -22,7 +22,25 @@ if (!(globalThis.browser && globalThis.browser.runtime && globalThis.browser.run
     // NOTE: apiMetadata is associated to the content of the api-metadata.json file
     // at build time by replacing the following "include" with the content of the
     // JSON file.
-    const apiMetadata = {/* include("api-metadata.json") */};
+    const apiMetadata = {
+      // Minimal metadata for basic extension APIs
+      "runtime": {
+        "sendMessage": {"minArgs": 1, "maxArgs": 3},
+        "onMessage": {"minArgs": 0, "maxArgs": 0}
+      },
+      "storage": {
+        "local": {
+          "get": {"minArgs": 0, "maxArgs": 2},
+          "set": {"minArgs": 1, "maxArgs": 2},
+          "remove": {"minArgs": 1, "maxArgs": 2},
+          "clear": {"minArgs": 0, "maxArgs": 1}
+        },
+        "onChanged": {"minArgs": 0, "maxArgs": 0}
+      },
+      "tabs": {
+        "sendMessage": {"minArgs": 2, "maxArgs": 3}
+      }
+    };
 
     if (Object.keys(apiMetadata).length === 0) {
       throw new Error("api-metadata.json has not been included in browser-polyfill");
@@ -536,9 +554,17 @@ if (!(globalThis.browser && globalThis.browser.runtime && globalThis.browser.run
     return wrapObject(extensionAPIs, staticWrappers, apiMetadata);
   };
 
-  // The build process adds a UMD wrapper around this file, which makes the
-  // `module` variable available.
-  module.exports = wrapAPIs(chrome);
+  // Set up global browser variable for browser extension context
+  // Always set the global for browser extensions, regardless of module system
+  globalThis.browser = wrapAPIs(chrome);
+  
+  // Also support module.exports for compatibility if module system exists
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = globalThis.browser;
+  }
 } else {
-  module.exports = globalThis.browser;
+  // Firefox already has browser global available
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = globalThis.browser;
+  }
 }
