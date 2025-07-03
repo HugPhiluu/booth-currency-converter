@@ -37,6 +37,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
       feedback.style.color = "green";
       feedback.textContent = "Settings saved!";
+
+      // Send message to content script to update prices
+      const [tab] = await browser.tabs.query({ active: true, currentWindow: true });
+      if (tab && tab.id) {
+        browser.tabs.sendMessage(tab.id, { type: "update-prices" }).catch(() => {
+          // Optionally show a warning or just ignore
+          console.warn("No content script found in this tab.");
+        });
+      }
     } catch (e) {
       feedback.style.color = "red";
       feedback.textContent = "Failed to save settings.";

@@ -1,4 +1,4 @@
-console.log("Booth Currency Converter content script loaded");
+// Booth Currency Converter content script loaded
 
 /**
  * Get user settings from browser storage.
@@ -108,17 +108,16 @@ function replaceTextNodes(node, rate, targetCurrency, notation) {
  * @returns {Promise<number|null>}
  */
 async function fetchRate(targetCurrency) {
-  return new Promise((resolve) => {
-    browser.runtime.sendMessage({ type: "fetch-rate", targetCurrency }, response => {
-      if (response && response.rate) {
-        console.log("Fetched rate:", response.rate);
-        resolve(response.rate);
-      } else {
-        console.warn("No rate received from background:", response);
-        resolve(null);
-      }
-    });
-  });
+  try {
+    const response = await browser.runtime.sendMessage({ type: "fetch-rate", targetCurrency });
+    if (response && response.rate) {
+      return response.rate;
+    } else {
+      return null;
+    }
+  } catch (e) {
+    return null;
+  }
 }
 
 /**
@@ -140,11 +139,11 @@ function showExchangeRateWarning() {
  * Main function to convert all JPY prices on the page.
  */
 async function convertPrices() {
+  removePreviousConversions(); 
   const { targetCurrency, notation } = await getSettings();
   const rate = await fetchRate(targetCurrency);
   if (!rate) {
     showExchangeRateWarning();
-    console.warn("No exchange rate, aborting conversion");
     return;
   }
   replaceTextNodes(document.body, rate, targetCurrency, notation);
@@ -164,35 +163,13 @@ function debounce(fn, delay) {
   };
 }
 
-// Debounced version for use with MutationObserver and storage changes
-const debouncedConvertPrices = debounce(convertPrices, 500);
 
-// Listen for storage changes (settings)
-browser.storage.onChanged.addListener(debouncedConvertPrices);
-
-// Initial conversion
-convertPrices();
-
-// MutationObserver to handle dynamic content changes
-const observer = new MutationObserver(mutations => {
-  // Only run if added/removed nodes or text changes
-  for (const mutation of mutations) {
-    if (
-      mutation.type === "childList" && (mutation.addedNodes.length || mutation.removedNodes.length)
-    ) {
-      debouncedConvertPrices();
-      break;
-    }
-    if (mutation.type === "characterData") {
-      debouncedConvertPrices();
-      break;
-    }
+// Listen for messages from the background script
+browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message && message.type === "update-prices") {
+    convertPrices();
   }
 });
 
-// Start observing the body for changes
-observer.observe(document.body, {
-  childList: true,
-  subtree: true,
-  characterData: true
-});
+// Initial conversion
+convertPrices();
