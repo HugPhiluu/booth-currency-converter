@@ -9,6 +9,7 @@ Choose your target currency in the extension popup and instantly see all booth.p
 
 - **Automatic JPY price conversion** on booth.pm to your selected currency
 - **Multiple currencies supported** (EUR, USD, GBP, AUD, CAD, CNY, KRW, and custom codes)
+- **Custom currency support:** Enter any valid 3-letter ISO currency code using the "Other..." option, and your choice will be remembered.
 - **Number notation selection** (European or US style)
 - **Works with both Firefox (Manifest V2) and Chrome (Manifest V3)**
 - **No user tracking or analytics**
@@ -65,7 +66,7 @@ npm run build
 
 1. Click the extension icon while browsing booth.pm.
 2. Select your preferred currency and number notation in the popup.
-3. Optionally, enter a custom 3-letter currency code.
+3. To use a custom currency, select "Other..." in the dropdown, enter a valid 3-letter currency code (e.g., CHF), and click "Save". Your choice will be remembered and shown the next time you open the popup.
 4. Click "Save" to apply settings.
 5. Click "Refresh Rates" to manually update exchange rates.
 6. All JPY prices on booth.pm will be converted automatically.
@@ -74,14 +75,14 @@ npm run build
 
 ## Development
 
-- **Source files:** All code is in the root directory.
+- **Source files:** All code is in the `src/` and `public/` directories.
 - **Build script:** [`build.js`](build.js) copies only the necessary files to `bin/chrome/` and `bin/firefox/` and zips them.
-- **Unit tests:** Run with `npm test` (see [`utils.test.js`](utils.test.js)).
+- **Unit tests:** Run with `npm test` (see [`test/utils.test.js`](test/utils.test.js)).
 - **Extension files included in build:**  
   - `manifest.json` (from `manifest.chrome.json` or `manifest.firefox.json`)
   - `popup.html`, `popup.js`, `styles.css`
   - `background.js`, `content.js`, `browser-polyfill.js`
-  - `icons/` (icon assets, not included in this repo by default)
+  - `icons/` (icon assets)
 
 ---
 
@@ -89,24 +90,30 @@ npm run build
 
 ```
 booth-currency-converter/
-├── background.js
 ├── build.js
-├── content.js
-├── browser-polyfill.js
-├── icons/
+├── LICENSE
 ├── manifest.chrome.json
 ├── manifest.firefox.json
 ├── package.json
-├── popup.html
-├── popup.js
-├── styles.css
-├── utils.js
-├── utils.test.js
+├── README.md
 ├── bin/
 │   ├── chrome/
 │   ├── chrome.zip
 │   ├── firefox/
 │   └── firefox.zip
+├── public/
+│   ├── popup.html
+│   ├── styles.css
+│   └── icons/
+│       └── icon.png
+├── src/
+│   ├── background.js
+│   ├── browser-polyfill.js
+│   ├── content.js
+│   ├── popup.js
+│   └── utils.js
+├── test/
+│   └── utils.test.js
 └── ...
 ```
 
@@ -115,11 +122,11 @@ booth-currency-converter/
 ## Customization
 
 - **Add more currencies:**  
-  Edit the `<select>` in [`popup.html`](popup.html) or allow more codes in the popup logic.
+  Edit the `<select>` in [`public/popup.html`](public/popup.html) or allow more codes in the popup logic in [`src/popup.js`](src/popup.js).
 - **Change icons:**  
-  Replace files in the `icons/` folder and update the manifests if needed.
+  Replace files in the `public/icons/` folder and update the manifests if needed.
 - **API endpoint:**  
-  The extension uses [Frankfurter API](https://www.frankfurter.app/) for exchange rates. You can change the endpoint in [`background.js`](background.js).
+  The extension uses [Frankfurter API](https://www.frankfurter.app/) for exchange rates. You can change the endpoint in [`src/background.js`](src/background.js).
 
 ---
 
