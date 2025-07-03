@@ -18,9 +18,15 @@ const INCLUDE = [
   { from: 'src/browser-polyfill.js', to: 'browser-polyfill.js' }
 ];
 
+// Always remove and recreate the bin folder before building
+function cleanBin() {
+  if (fs.existsSync(BIN)) fse.removeSync(BIN);
+  fs.mkdirSync(BIN);
+}
+
 function clean(dir) {
   if (fs.existsSync(dir)) fse.removeSync(dir);
-  if (!fs.existsSync(BIN)) fs.mkdirSync(BIN);
+  // No need to create BIN here, handled by cleanBin
 }
 
 function copyFiles(target, manifestFile) {
@@ -34,6 +40,7 @@ function copyFiles(target, manifestFile) {
 }
 
 async function build() {
+  cleanBin(); // Always start with a fresh bin folder
   clean(CHROME);
   clean(FIREFOX);
 
