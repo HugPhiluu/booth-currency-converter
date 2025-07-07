@@ -33,11 +33,31 @@ describe('Price Detection Patterns', () => {
     '1,000 yen'
   ];
   
+  const nonPrices = [
+    '7',           // Single digit
+    '1430',        // Like count or other number without currency
+    '123',         // Random number
+    '2024',        // Year
+    '100%',        // Percentage
+    '3.5 stars',   // Rating
+    'Chapter 10'   // Text with number
+  ];
+  
   test('should match various Japanese price formats', () => {
-    const regex = /([¥￥]?\s*[0-9]{1,3}(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen)?\b)|([0-9]{1,3}(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen)\b)/gi;
+    // Updated regex to be more restrictive - requires clear currency indicators
+    const regex = /([¥￥]\s*[0-9]+(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?)|([0-9]+(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen))/gi;
     
     testPrices.forEach(price => {
       expect(price.match(regex)).toBeTruthy();
+    });
+  });
+  
+  test('should NOT match non-price numbers', () => {
+    // Updated regex to be more restrictive - requires clear currency indicators
+    const regex = /([¥￥]\s*[0-9]+(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?)|([0-9]+(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen))/gi;
+    
+    nonPrices.forEach(text => {
+      expect(text.match(regex)).toBeFalsy();
     });
   });
 });

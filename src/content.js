@@ -55,8 +55,9 @@ function sanitizeText(str) {
  * @param {string} notation
  */
 function replaceTextNodes(node, rate, targetCurrency, notation) {
-  // Enhanced regex to match various JPY price formats
-  const priceRegex = /([¥￥]?\s*[0-9]{1,3}(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen)?\b)|([0-9]{1,3}(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen)\b)/gi;
+  // More restrictive regex to match only clear JPY price formats
+  // Requires explicit currency symbols (¥, ￥) or currency words (JPY, 円, yen)
+  const priceRegex = /([¥￥]\s*[0-9]+(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?)|([0-9]+(?:[,\s][0-9]{3})*(?:\.[0-9]{1,2})?\s*(?:JPY|円|yen))/gi;
   
   if (node.nodeType === Node.TEXT_NODE) {
     // Prevent converting if parent already contains a conversion span
@@ -282,8 +283,8 @@ function showToggleNotification(enabled) {
   }, 2000);
 }
 
-// Debounced conversion function for mutation observer
-const debouncedConvertPrices = debounce(convertPrices, 500);
+// Convert prices immediately for mutation observer - no debounce to prevent popping
+const convertPricesForMutations = convertPrices;
 
 // Mutation observer to handle dynamically loaded content
 const observer = new MutationObserver((mutations) => {
@@ -301,7 +302,7 @@ const observer = new MutationObserver((mutations) => {
   });
   
   if (shouldUpdate) {
-    debouncedConvertPrices();
+    convertPricesForMutations();
   }
 });
 
