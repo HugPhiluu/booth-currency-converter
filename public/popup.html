@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h2 id="popup-title">Booth.pm Currency Converter</h2>
+  <h2 id="popup-title">Japanese Currency Converter</h2>
   <label for="currency">
     Convert to:
   </label>
@@ -16,8 +16,22 @@
     <option value="GBP">British Pound (GBP)</option>
     <option value="AUD">Australian Dollar (AUD)</option>
     <option value="CAD">Canadian Dollar (CAD)</option>
+    <option value="CHF">Swiss Franc (CHF)</option>
     <option value="CNY">Chinese Yuan (CNY)</option>
     <option value="KRW">Korean Won (KRW)</option>
+    <option value="SEK">Swedish Krona (SEK)</option>
+    <option value="NOK">Norwegian Krone (NOK)</option>
+    <option value="DKK">Danish Krone (DKK)</option>
+    <option value="PLN">Polish Zloty (PLN)</option>
+    <option value="CZK">Czech Koruna (CZK)</option>
+    <option value="HUF">Hungarian Forint (HUF)</option>
+    <option value="MXN">Mexican Peso (MXN)</option>
+    <option value="BRL">Brazilian Real (BRL)</option>
+    <option value="INR">Indian Rupee (INR)</option>
+    <option value="SGD">Singapore Dollar (SGD)</option>
+    <option value="HKD">Hong Kong Dollar (HKD)</option>
+    <option value="TWD">Taiwan Dollar (TWD)</option>
+    <option value="THB">Thai Baht (THB)</option>
     <option value="OTHER">Other...</option>
   </select>
   <input id="custom-currency" type="text" maxlength="3" placeholder="e.g. CHF" style="display:none;width:100%;margin-top:4px;" aria-label="Custom currency code"/>
@@ -30,12 +44,21 @@
     <option value="dot">1,000.00</option>
   </select>
   <br/>
+  <label for="enabled">
+    <input type="checkbox" id="enabled" style="margin-right: 8px;">
+    Enable currency conversion
+  </label>
+  <br/>
   <div class="button-row">
     <button id="save">Save</button>
     <button id="refresh">Refresh Rates</button>
   </div>
   <div id="feedback" style="margin-top:8px;color:red;" aria-live="polite"></div>
+  <div id="conversion-status" style="margin:8px 0;padding:8px;border-radius:4px;font-size:0.9em;text-align:center;"></div>
   <div id="last-updated" style="margin:8px 0 0 0;font-size:0.95em;color:#555;"></div>
+  <div style="margin:8px 0;padding:8px;background:#f8f9fa;border-radius:4px;font-size:0.85em;color:#6c757d;">
+    💡 <strong>Tip:</strong> Press Ctrl+Shift+Y to quickly toggle conversions. Works on Japanese shopping sites like Booth, Mercari, Amazon JP, and more!
+  </div>
   <script src="browser-polyfill.js"></script>
   <script src="popup.js"></script>
 </body>

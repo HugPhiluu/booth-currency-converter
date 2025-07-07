@@ -1,7 +1,7 @@
 {
   "name": "booth-currency-converter",
   "version": "1.0.0",
-  "description": "A browser extension that automatically converts JPY prices on [booth.pm](https://booth.pm) into your preferred currency.  \r Choose your target currency in the extension popup and instantly see all booth.pm prices updated in real time.",
+  "description": "A browser extension that automatically converts JPY prices on Japanese shopping sites (Booth, Mercari, Amazon JP, etc.) into your preferred currency with enhanced styling and features.",
   "main": "background.js",
   "scripts": {
     "test": "jest",

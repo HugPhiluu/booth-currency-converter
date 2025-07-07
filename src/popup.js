@@ -5,14 +5,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   const refresh = document.getElementById("refresh");
   const feedback = document.getElementById("feedback");
   const custom = document.getElementById("custom-currency");
+  const enabled = document.getElementById("enabled");
 
   // List of built-in currency codes
-  const builtIn = ["EUR", "USD", "GBP", "AUD", "CAD", "CNY", "KRW"];
+  const builtIn = ["EUR", "USD", "GBP", "AUD", "CAD", "CNY", "KRW", "CHF", "SEK", "NOK", "DKK", "PLN", "CZK", "HUF", "MXN", "BRL", "INR", "SGD", "HKD", "TWD", "THB"];
 
   // Load settings
-  const result = await browser.storage.local.get(["targetCurrency", "notation", "customCurrency"]);
+  const result = await browser.storage.local.get(["targetCurrency", "notation", "customCurrency", "enabled"]);
   let selectedCurrency = result.targetCurrency || "EUR";
   let customCurrency = result.customCurrency || "";
+  enabled.checked = result.enabled !== false; // Default to enabled
 
   // If not built-in, set to OTHER and fill textbox
   if (!builtIn.includes(selectedCurrency)) {
@@ -57,7 +59,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       await browser.storage.local.set({
         targetCurrency: selectedCurrency,
         notation: notation.value,
-        customCurrency: customCurrency // Always save, even if empty
+        customCurrency: customCurrency, // Always save, even if empty
+        enabled: enabled.checked
       });
       feedback.style.color = "green";
       feedback.textContent = "Settings saved!";
@@ -110,5 +113,22 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   currency.addEventListener("change", showLastUpdated);
   custom.addEventListener("input", showLastUpdated);
+  enabled.addEventListener("change", updateConversionStatus);
   showLastUpdated();
+  updateConversionStatus();
+  
+  function updateConversionStatus() {
+    const statusDiv = document.getElementById("conversion-status");
+    if (enabled.checked) {
+      statusDiv.textContent = "✓ Conversion active";
+      statusDiv.style.backgroundColor = "#d4edda";
+      statusDiv.style.color = "#155724";
+      statusDiv.style.border = "1px solid #c3e6cb";
+    } else {
+      statusDiv.textContent = "✗ Conversion disabled";
+      statusDiv.style.backgroundColor = "#f8d7da";
+      statusDiv.style.color = "#721c24";
+      statusDiv.style.border = "1px solid #f5c6cb";
+    }
+  }
 });

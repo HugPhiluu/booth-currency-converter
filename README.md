@@ -1,23 +1,26 @@
-# booth-currency-converter
+# Japanese E-commerce Currency Converter
 
-A browser extension that automatically converts JPY prices on [booth.pm](https://booth.pm) into your preferred currency.  
-Choose your target currency in the extension popup and instantly see all booth.pm prices updated in real time.
+A browser extension that automatically converts JPY prices on Japanese shopping sites into your preferred currency with enhanced styling and features.  
+Supports booth.pm, Mercari, Amazon JP, Yahoo Shopping, Rakuten, and more Japanese e-commerce sites.
 
 ---
 
 ## Features
 
-- **Automatic JPY price conversion** on booth.pm to your selected currency
-- **Multiple currencies supported** (EUR, USD, GBP, AUD, CAD, CNY, KRW, and custom codes)
-- **Custom currency support:** Enter any valid 3-letter ISO currency code using the "Other..." option, and your choice will be remembered.
-- **Number notation selection** (European or US style)
-- **Works with both Firefox (Manifest V2) and Chrome (Manifest V3)**
-- **No user tracking or analytics**
-- **Live exchange rates** (via [Frankfurter API](https://www.frankfurter.app/))
-- **Settings popup** for currency and notation
-- **Manual refresh** of exchange rates
-- **Accessible UI** and keyboard navigation
-- **Unit tested** currency formatting
+- **Multi-site support** - Works on Booth, Mercari, Amazon JP, Yahoo Shopping, Rakuten, and other Japanese e-commerce sites
+- **Enhanced price detection** - Recognizes various JPY formats (¥1000, 1,000円, 1000 yen, etc.)
+- **21+ currencies supported** - EUR, USD, GBP, CHF, SEK, NOK, and many more built-in options
+- **Custom currency support** - Enter any valid 3-letter ISO currency code
+- **Visual enhancements** - Styled conversion displays with hover effects and click-to-copy
+- **Toggle functionality** - Enable/disable conversions with a checkbox or keyboard shortcut (Ctrl+Shift+Y)
+- **Dynamic content support** - Automatically detects and converts newly loaded prices
+- **Number notation selection** - European (1.000,00) or US (1,000.00) style formatting
+- **Performance optimized** - Debounced updates and mutation observer for dynamic content
+- **Cross-browser compatibility** - Works with both Firefox (Manifest V2) and Chrome (Manifest V3)
+- **Enhanced error handling** - Better warning messages with retry functionality
+- **Live exchange rates** - Cached for 1 hour via [Frankfurter API](https://www.frankfurter.app/)
+- **Accessible UI** - Keyboard navigation and screen reader support
+- **Unit tested** - Comprehensive test coverage
 
 ---
 
@@ -64,7 +67,18 @@ npm run build
 
 ## Usage
 
-1. Click the extension icon while browsing booth.pm.
+1. **Install and activate** the extension in your browser.
+2. **Visit any supported Japanese e-commerce site** (Booth, Mercari, Amazon JP, etc.).
+3. **Click the extension icon** to open the settings popup.
+4. **Select your preferred currency** from the expanded list of 21+ options.
+5. **Choose number notation** (European 1.000,00 or US 1,000.00 style).
+6. **Enable/disable conversions** using the checkbox or press **Ctrl+Shift+Y** for quick toggle.
+7. **Click Save** to apply settings and see prices converted automatically.
+8. **Hover over converted prices** to see enhanced styling and click to copy values.
+9. **Use Refresh Rates** to update exchange rates manually.
+
+### Keyboard Shortcuts
+- **Ctrl+Shift+Y** - Toggle currency conversion on/off
 2. Select your preferred currency and number notation in the popup.
 3. To use a custom currency, select "Other..." in the dropdown, enter a valid 3-letter currency code (e.g., CHF), and click "Save". Your choice will be remembered and shown the next time you open the popup.
 4. Click "Save" to apply settings.

@@ -36,3 +36,32 @@ browser.runtime.onMessage.addListener((message, sender) => {
       .catch(() => ({ rate: null }));
   }
 });
+
+// Handle keyboard shortcuts
+browser.commands.onCommand.addListener(async (command) => {
+  if (command === "toggle-conversion") {
+    // Get current setting
+    const result = await browser.storage.local.get(["enabled"]);
+    const currentEnabled = result.enabled !== false;
+    
+    // Toggle the setting
+    await browser.storage.local.set({ enabled: !currentEnabled });
+    
+    // Send message to all content scripts to update
+    const tabs = await browser.tabs.query({});
+    tabs.forEach(tab => {
+      if (tab.url && (tab.url.includes('booth.pm') || 
+                      tab.url.includes('mercari.com') ||
+                      tab.url.includes('yahoo.co.jp') ||
+                      tab.url.includes('rakuten.co.jp') ||
+                      tab.url.includes('amazon.co.jp'))) {
+        browser.tabs.sendMessage(tab.id, { 
+          type: "toggle-conversion", 
+          enabled: !currentEnabled 
+        }).catch(() => {
+          // Content script might not be ready
+        });
+      }
+    });
+  }
+});

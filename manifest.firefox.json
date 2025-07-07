@@ -1,13 +1,20 @@
 {
   "manifest_version": 2,
-  "name": "Booth.pm Currency Converter",
-  "description": "Convert JPY prices on booth.pm into your preferred currency.",
+  "name": "Japanese E-commerce Currency Converter",
+  "description": "Convert JPY prices on Japanese shopping sites (Booth, Mercari, Amazon JP, etc.) into your preferred currency with enhanced styling and features.",
   "version": "1.0",
   "icons": {
     "48": "icons/icon.png"
   },
   "permissions": [
-    "storage"
+    "storage",
+    "*://*.booth.pm/*",
+    "*://*.mercari.com/*",
+    "*://auctions.yahoo.co.jp/*",
+    "*://shopping.yahoo.co.jp/*",
+    "*://*.rakuten.co.jp/*",
+    "*://*.amazon.co.jp/*",
+    "https://api.frankfurter.app/*"
   ],
   "background": {
     "scripts": ["browser-polyfill.js", "background.js"]
@@ -18,9 +25,24 @@
   },
   "content_scripts": [
     {
-      "matches": ["*://*.booth.pm/*"],
+      "matches": [
+        "*://*.booth.pm/*",
+        "*://*.mercari.com/*",
+        "*://auctions.yahoo.co.jp/*", 
+        "*://shopping.yahoo.co.jp/*",
+        "*://*.rakuten.co.jp/*",
+        "*://*.amazon.co.jp/*"
+      ],
       "js": ["browser-polyfill.js", "content.js"]
     }
   ],
+  "commands": {
+    "toggle-conversion": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Toggle currency conversion on/off"
+    }
+  },
   "web_accessible_resources": []
 }
